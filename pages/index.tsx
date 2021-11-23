@@ -1,12 +1,17 @@
 import type { NextPage } from "next";
+import { Marker } from "react-map-gl";
 
 import Head from "next/head";
-import fetcher from "../utilities/fetcher";
 import useSWR from "swr";
+
+import fetcher from "../utilities/fetcher";
 import { addDataLayer } from "../map/addLayer";
+
+import * as CITIES from "./api/cities.json";
 import { initializeMap } from "../map/initializeMap";
 import styles from "../styles/Home.module.css";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import Pins from "../map/pins";
 
 const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
 
@@ -15,11 +20,10 @@ mapboxgl.accessToken =
 
 const Home: NextPage = () => {
   const [pageIsMounted, setPageIsMounted] = useState(false);
-  const [hoverInfo, setHoverInfo] = useState(null);
-  const [allData, setAllData] = useState(null);
   const [Map, setMap] = useState();
+  const [regioncentre, setRegionCentre] = useState(null);
   const { data, error } = useSWR("/api/asia", fetcher);
-  
+  const [pinInfo, setPinInfo] = useState(null);
 
   useEffect(() => {
     setPageIsMounted(true);
@@ -28,40 +32,66 @@ const Home: NextPage = () => {
       container: "world-map",
       style: "mapbox://styles/shoummorauth/ckw8z8avm3fcs14paluhc6a4v",
       center: [20.5937, 78.9629],
+      zoom:0.5,
+      dragPan: false,
+      dragRotate: false,
+      scrollZoom: false,
+      touchZoom: false,
+      touchRotate: false,
+      keyboard: false,
+      doubleClickZoom: false,
       // maxBounds: [
       //   [-77.875588, 38.50705], // Southwest coordinates
       //   [-76.15381, 39.548764], // Northeast coordinates
       // ],
     });
 
-
-   
-
-    map.setRenderWorldCopies(false)
-    initializeMap(mapboxgl, map); 
+    map.setRenderWorldCopies(false);
+    initializeMap(mapboxgl, map);
     setMap(map);
-
-
   }, []);
 
   useEffect(() => {
-    console.log("this is MAPP");
-    console.log(Map);
+    // /* global fetch */
+    // fetch(
+    //   // './bd_banani_polygon.json'
+    //   "./api/cities.json"
+    //   // './data.json',
+    // )
+    //   .then((resp) => resp.json())
+    //   .then((json) => {
+    //     console.log("JSON DATAAAAAA");
+    //     console.log(json);
+    //     setRegionCentre(json)
+    //   });
+  }, []);
+
+  //On click pins get the city information
+  //Get the city info on click
+  useEffect(() => {
+    console.log("This is pin info");
+    if (pinInfo) {
+      alert(`REGION: ${pinInfo.region}`);
+    } else {
+      console.log("No data");
+    }
+    // console.log(isMounted.current? pinInfo:"");
+    console.log("This is pin data");
+  }, [pinInfo]);
+
+  useEffect(() => {
+    console.log("CITY DATA");
+    let region_centres = Object.values(CITIES);
+    console.log(region_centres[1]);
+    console.log("CONST CONST");
+    console.log(region_centres[1]);
 
     if (pageIsMounted && data) {
-      console.log(Map);
       Map.on("load", function () {
-        console.log("This is dataa");
-        console.log(data);
-
-        addDataLayer(Map, data);
+        addDataLayer(Map, data, region_centres[2]);
       });
     }
   }, [pageIsMounted, setMap, data, Map]);
-
-
-
-  
 
   return (
     <div className={styles.container}>
@@ -73,10 +103,10 @@ const Home: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
-      
 
       <main className={styles.main}>
         <div id="world-map" style={{ height: 550, width: 700 }} />
+        {/* <Pins data={cities} onClick={setPinInfo} />*/}
       </main>
     </div>
   );

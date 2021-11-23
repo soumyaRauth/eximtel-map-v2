@@ -2419,7 +2419,7 @@ export default (req, res) => {
       "properties": {
         "name": "Saudi Arabia",
         "volume":500,
-        "region":"South Asia", 
+        "region":"Middle East", 
         "income": {
           "1995": 31189,
           "1996": 33002,
@@ -4875,7 +4875,7 @@ export default (req, res) => {
       "properties": {
         "name": "Yemen",
         "volume":500,
-        "region":"South Asia", 
+        "region":"Middle East", 
         "income": {
           "1995": 31189,
           "1996": 33002,

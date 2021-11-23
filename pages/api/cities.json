@@ -1,0 +1,32 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 1,
+      "properties": {
+        "id":1,
+        "name": "DELHI",
+        "volume": 800,
+        "region": "South Asia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.43665079572656, 25.690700411121455]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2,
+      "properties": {
+        "name": "RIYADH",
+        "volume": 200,
+        "region": "Middle East"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [44.6953718032302, 25.075179026382486]
+      }
+    }
+  ]
+}
