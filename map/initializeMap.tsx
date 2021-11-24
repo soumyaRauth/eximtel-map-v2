@@ -54,28 +54,30 @@ export function initializeMap(mapboxgl:any, map:any) {
 
 
   
-    map.on("click", "unclustered-point", function (e:any) {
+    // map.on("click", "unclustered-point", function (e:any) {
       
-      var coordinates = e.features[0].geometry.coordinates.slice();
-      var mag = e.features[0].properties.name;
+    //   var coordinates = e.features[0].geometry.coordinates.slice();
+    //   var mag = e.features[0].properties.name;
 
-      console.log("Namesss");
-      console.log(mag);
+    //   console.log("Namesss");
+    //   console.log(mag);
       
       
-    });
-    map.on("click", "data", function (e:any) {
-      console.log("hello");
-      
-      
-      var coordinates = e.features[0].geometry.coordinates.slice();
-      var mag = e.features[0].properties.name;
+    // });
 
-      console.log("Namesss");
-      console.log(e.lngLat);
+    
+    // map.on("click", "data", function (e:any) {
+    //   console.log("hello");
       
       
-    });
+    //   var coordinates = e.features[0].geometry.coordinates.slice();
+    //   var mag = e.features[0].properties.name;
+
+    //   console.log("Namesss");
+    //   console.log(e.lngLat);
+      
+      
+    // });
 
     
     map.addControl(

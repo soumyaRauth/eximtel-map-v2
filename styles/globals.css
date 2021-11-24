@@ -29,5 +29,6 @@ a {
 
 
 .mapboxgl-ctrl-attrib-inner{
-  visibility: hidden;
+  color: red;
+  /* visibility: hidden;  */
 }

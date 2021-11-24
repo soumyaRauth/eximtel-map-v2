@@ -115,9 +115,7 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   //   }
   // };
 
-  map.addLayer({
 
-  });
 
   map.addLayer({ ...dataLayer });
   map.addLayer({ ...clusterLayer });
@@ -160,5 +158,15 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
       );
     }
     hoveredStateId = null;
+  });
+
+  /**
+   * *Click on the bubble effect
+   */
+  map.on("click", "clusters", (e:any) => {
+
+   console.log("IDDDDD");
+   alert(e.features[0].properties.region);
+   
   });
 }
