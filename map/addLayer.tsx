@@ -138,7 +138,6 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
     }
   });
 
-
   /**
    * *Mouse on hover change pointer
    */
@@ -146,7 +145,7 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
     map.getCanvas().style.cursor = "pointer";
   });
 
-   /**
+  /**
    * *Mouse on hover leave change pointer
    */
   map.on("mouseleave", "clusters", () => {
@@ -171,7 +170,25 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
    * *Click on the bubble effect
    */
   map.on("click", "clusters", (e: any) => {
-    console.log("IDDDDD");
-    alert(e.features[0].properties.region);
+    console.log("On Click Feature ID");
+    console.log(e.features[0].geometry.coordinates);
+
+    map.flyTo({
+
+      center: e.features[0].geometry.coordinates,
+      zoom: 5,
+      bearing: 0,
+      speed: 2, // make the flying slow
+      curve: 1, // change the speed at which it zooms out
+
+      // This can be any easing function: it takes a number between
+      // 0 and 1 and returns another number between 0 and 1.
+      easing: (t:any) => t,
+
+      // this animation is considered essential with respect to prefers-reduced-motion
+      essential: true
+      });
+
+     
   });
 }

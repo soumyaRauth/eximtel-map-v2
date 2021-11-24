@@ -49,15 +49,11 @@ const WorldMap: NextPage = ({mapObj}:any) => {
     setMap(map);
   }, []);
 
-
+  
 
   useEffect(() => {
-    console.log("CITY DATA");
     let region_centres = Object.values(CITIES);
-    console.log(region_centres[1]);
-    console.log("CONST CONST");
-    console.log(region_centres[1]);
-
+ 
     if (pageIsMounted && data) {
       Map.on("load", function () {
         addDataLayer(Map, data, region_centres[2]);
