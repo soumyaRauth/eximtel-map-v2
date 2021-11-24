@@ -4,21 +4,35 @@ import { Marker } from "react-map-gl";
 import Head from "next/head";
 import useSWR from "swr";
 
-import fetcher from "../utilities/fetcher";
-import { addDataLayer } from "../map/addLayer";
+import fetcher from "../../utilities/fetcher";
+import { addDataLayer } from "../../map/addLayer";
 
-import * as CITIES from "./api/cities.json";
-import { initializeMap } from "../map/initializeMap";
-import styles from "../styles/Home.module.css";
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
-import Pins from "../map/pins";
+import * as CITIES from "../api/cities.json";
+import { initializeMap } from "../../map/initializeMap";
+import styles from "../../styles/Home.module.css";
+import { useState, useRef, useEffect, useMemo, useCallback, Props } from "react";
 
+//interfaces
+interface MapObject {
+    container?: string;
+    style?: string;
+    center?: Array<number>;
+    zoom?: number;
+    dragPan?: boolean;
+    dragRotate?: boolean;
+    scrollZoom?: boolean;
+    touchZoom?: boolean;
+    touchRotate?: boolean;
+    keyboard?: boolean;
+    doubleClickZoom?: boolean;
+  }
+  
 const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoic2hvdW1tb3JhdXRoIiwiYSI6ImNrdTE0OTA5YTB6ZGQybnBjN3U4dTA3eHkifQ.YBf9n4C77kkV_vePiPHamQ";
 
-const WorldMap: NextPage = () => {
+const WorldMap: NextPage = ({mapObj}:any) => {
   const [pageIsMounted, setPageIsMounted] = useState(false);
   const [Map, setMap] = useState();
   const [regioncentre, setRegionCentre] = useState(null);
@@ -28,23 +42,7 @@ const WorldMap: NextPage = () => {
   useEffect(() => {
     setPageIsMounted(true);
 
-    let map = new mapboxgl.Map({
-      container: "world-map",
-      style: "mapbox://styles/shoummorauth/ckw8z8avm3fcs14paluhc6a4v",
-      center: [20.5937, 78.9629],
-      zoom:0.5,
-      dragPan: false,
-      dragRotate: false,
-      scrollZoom: false,
-      touchZoom: false,
-      touchRotate: false,
-      keyboard: false,
-      doubleClickZoom: false,
-      // maxBounds: [
-      //   [-77.875588, 38.50705], // Southwest coordinates
-      //   [-76.15381, 39.548764], // Northeast coordinates
-      // ],
-    });
+    let map = new mapboxgl.Map(mapObj);
 
     map.setRenderWorldCopies(false);
     initializeMap(mapboxgl, map);

@@ -4,7 +4,7 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   if (!map.getSource("data")) {
     map.addSource("data", {
       type: "geojson",
-      data: data
+      data: data,
     });
   } else {
     map.getSource("data").setData(data);
@@ -71,11 +71,10 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
         500,
         "#c1dcf6",
       ],
-      "circle-radius": ['step', ['get', 'volume'], 20, 100, 15, 750, 40],
+      "circle-radius": ["step", ["get", "volume"], 20, 100, 15, 750, 40],
       "circle-opacity": 0.8,
     },
   };
-
 
   const clusterLabel = {
     id: "cluster-count",
@@ -115,8 +114,6 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   //   }
   // };
 
-
-
   map.addLayer({ ...dataLayer });
   map.addLayer({ ...clusterLayer });
   map.addLayer({ ...clusterLabel });
@@ -124,14 +121,11 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   // map.addLayer({ ...unclusteredPointLayer });
   //adding bubble layer
 
-
-
   /**
    * *Cluster on click event
    */
   // inspect a cluster on click
-  map.on("mousemove", "clusters", function (e:any) {
-       
+  map.on("mousemove", "clusters", function (e: any) {
     hoveredStateId = e.features[0].properties.region_id;
 
     if (data.features.length > 0) {
@@ -144,13 +138,26 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
     }
   });
 
- 
+
+  /**
+   * *Mouse on hover change pointer
+   */
+  map.on("mouseenter", "clusters", () => {
+    map.getCanvas().style.cursor = "pointer";
+  });
+
+   /**
+   * *Mouse on hover leave change pointer
+   */
+  map.on("mouseleave", "clusters", () => {
+    map.getCanvas().style.cursor = "";
+  });
+
   /**
    * On hover mouse leave
    */
 
   map.on("mouseleave", "data", () => {
-
     if (hoveredStateId !== null) {
       map.setFeatureState(
         { source: "data", id: hoveredStateId },
@@ -163,10 +170,8 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   /**
    * *Click on the bubble effect
    */
-  map.on("click", "clusters", (e:any) => {
-
-   console.log("IDDDDD");
-   alert(e.features[0].properties.region);
-   
+  map.on("click", "clusters", (e: any) => {
+    console.log("IDDDDD");
+    alert(e.features[0].properties.region);
   });
 }
