@@ -5,7 +5,7 @@ import Head from "next/head";
 import useSWR from "swr";
 
 import fetcher from "../../utilities/fetcher";
-import { addDataLayer } from "../../map/addLayer";
+import { addRegionLayer } from "../../map/addRegionLayer";
 
 import * as CITIES from "../api/cities.json";
 import { initializeMap } from "../../map/initializeMap";
@@ -56,7 +56,7 @@ const WorldMap: NextPage = ({mapObj}:any) => {
  
     if (pageIsMounted && data) {
       Map.on("load", function () {
-        addDataLayer(Map, data, region_centres[2]);
+        addRegionLayer(Map, data, region_centres[2]);
       });
     }
   }, [pageIsMounted, setMap, data, Map]);

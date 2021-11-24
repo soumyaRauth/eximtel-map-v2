@@ -26,7 +26,7 @@ const mapObject:MapObject = {
     zoom: 0.5,
     dragPan: false,
     dragRotate: false,
-    scrollZoom: true,
+    scrollZoom: false,
     touchZoom: false,
     touchRotate: false,
     keyboard: false,

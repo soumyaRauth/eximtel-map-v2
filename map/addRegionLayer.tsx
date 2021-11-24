@@ -1,5 +1,9 @@
-export function addDataLayer(map: any, data: any, cluster_data: any) {
+export function addRegionLayer(map: any, data: any, cluster_data: any) {
   var hoveredStateId: any = null;
+  var clicked: boolean = false;
+  var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
+  mapboxgl.accessToken =
+  "pk.eyJ1Ijoic2hvdW1tb3JhdXRoIiwiYSI6ImNrdTE0OTA5YTB6ZGQybnBjN3U4dTA3eHkifQ.YBf9n4C77kkV_vePiPHamQ";
 
   if (!map.getSource("data")) {
     map.addSource("data", {
@@ -11,9 +15,6 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   }
 
   if (!map.getSource("cluster_data")) {
-    console.log("CLUSTER DATA FROM ADD LAYER");
-    console.log(cluster_data);
-
     map.addSource("cluster_data", {
       type: "geojson",
       data: cluster_data,
@@ -124,10 +125,21 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   /**
    * *Cluster on click event
    */
-  // inspect a cluster on click
-  map.on("mousemove", "clusters", function (e: any) {
-    hoveredStateId = e.features[0].properties.region_id;
+  // Create a popup, but don't add it to the map yet.
+  /**
+   * !YET TO MAKE IT WORK
+   */
+  const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+  });
 
+  map.on("mousemove", "clusters", function (e: any) {
+
+    hoveredStateId = e.features[0].properties.region_id;
+    
+    
+    
     if (data.features.length > 0) {
       if (data !== null) {
         map.setFeatureState(
@@ -141,7 +153,15 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   /**
    * *Mouse on hover change pointer
    */
-  map.on("mouseenter", "clusters", () => {
+  map.on("mouseenter", "clusters", (e:any) => {
+    console.log("FDFDFDF");
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    popup
+      .setLngLat(coordinates)
+      .setHTML(
+        `<strong>Truckeroo</strong><p style="color:red">Truckeroo brings dozens of food trucks</p>`
+      )
+      .addTo(map);
     map.getCanvas().style.cursor = "pointer";
   });
 
@@ -150,6 +170,7 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
    */
   map.on("mouseleave", "clusters", () => {
     map.getCanvas().style.cursor = "";
+    popup.remove();
   });
 
   /**
@@ -167,28 +188,25 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   });
 
   /**
-   * *Click on the bubble effect
+   * *Click on the bubble zoom effect
    */
   map.on("click", "clusters", (e: any) => {
-    console.log("On Click Feature ID");
-    console.log(e.features[0].geometry.coordinates);
+    clicked = !clicked;
 
     map.flyTo({
-
       center: e.features[0].geometry.coordinates,
-      zoom: 5,
+      zoom: clicked ? 3.2 : 0,
       bearing: 0,
+      scrollZoom: false,
       speed: 2, // make the flying slow
       curve: 1, // change the speed at which it zooms out
 
       // This can be any easing function: it takes a number between
       // 0 and 1 and returns another number between 0 and 1.
-      easing: (t:any) => t,
+      easing: (t: any) => t,
 
       // this animation is considered essential with respect to prefers-reduced-motion
-      essential: true
-      });
-
-     
+      essential: true,
+    });
   });
 }
