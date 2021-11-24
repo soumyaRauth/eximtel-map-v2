@@ -6,6 +6,7 @@ export default (req, res) => {
     {
       "type": "Feature",
       "id":1,
+      "country_id":1,
       "properties": {
         "name": "Bangladesh",
         "volume":500,
@@ -2416,6 +2417,7 @@ export default (req, res) => {
     {
       "type": "Feature",
       "id":2,
+      "country_id":2,
       "properties": {
         "name": "Saudi Arabia",
         "volume":500,
@@ -4872,6 +4874,7 @@ export default (req, res) => {
     {
       "type": "Feature",
       "id":2,
+      "country_id":3,
       "properties": {
         "name": "Yemen",
         "volume":500,
@@ -5978,6 +5981,7 @@ export default (req, res) => {
     {
       "type": "Feature",
       "id":2,
+      "country_id":4,
       "properties": {
         "name": "Oman",
         "volume":500,
@@ -7080,6 +7084,7 @@ export default (req, res) => {
     {
       "type": "Feature",
       "id":2,
+      "country_id":5,
       "properties": {
         "name": "UAE",
         "volume":500,
@@ -7965,6 +7970,7 @@ export default (req, res) => {
     {
       "type": "Feature",
       "id":2,
+      "country_id":6,
       "properties": {
         "name": "Qatar",
         "volume":500,
@@ -8246,6 +8252,7 @@ export default (req, res) => {
     {
       "type": "Feature",
       "id":2,
+      "country_id":7,
       "properties": {
         "name": "Kuwait",
         "volume":500,
@@ -8550,6 +8557,7 @@ export default (req, res) => {
     { 
       "type": "Feature",
       "id":1,
+      "country_id":8,
       "properties": {
         "name": "Bhutan",
         "region":"South Asia",
@@ -8919,6 +8927,7 @@ export default (req, res) => {
     { 
       "type": "Feature",
       "id":1,
+      "country_id":9,
       "properties": {
         "name": "Pakistan",
         "region":"South Asia",
@@ -11109,6 +11118,7 @@ export default (req, res) => {
     { 
       "type": "Feature",
       "id":1,
+      "country_id":10,
       "properties": {
         "name": "India",
         
@@ -19084,6 +19094,7 @@ export default (req, res) => {
     { 
       "type": "Feature",
       "id":1,
+      "country_id":11,
       "properties": {
         "name": "Nepal",
         "region":"South Asia",
@@ -20149,6 +20160,7 @@ export default (req, res) => {
     { 
       "type": "Feature",
       "id":1,
+      "country_id":12,
       "properties": {
         "name": "Afghanistan",
         "region":"South Asia",
@@ -21722,6 +21734,7 @@ export default (req, res) => {
     { 
       "type": "Feature",
       "id":1,
+      "country_id":13,
       "properties": {
         "name": "Sri Lanka",
         "region":"South Asia",

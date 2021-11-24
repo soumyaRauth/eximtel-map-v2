@@ -4,13 +4,7 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   if (!map.getSource("data")) {
     map.addSource("data", {
       type: "geojson",
-      data: data,
-      // cluster: true,
-      // clusterMaxZoom: 14,
-      // clusterRadius: 50,
-      // clusterProperties: {
-      //   sum: ["+", ["get", "volume"]],
-      // },
+      data: data
     });
   } else {
     map.getSource("data").setData(data);
@@ -82,6 +76,22 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
     },
   };
 
+
+  const clusterLabel = {
+    id: "cluster-count",
+    type: "symbol",
+    source: "cluster_data",
+    filter: ["has", "region"],
+    layout: {
+      "text-field": "{region}",
+      "text-font": ["Open Sans Bold"],
+      "text-size": 8,
+    },
+    paint: {
+      "text-color": "grey",
+    },
+  };
+
   // const clusterCountLayer = {
   //   id: 'cluster-count',
   //   type: 'symbol',
@@ -105,18 +115,26 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
   //   }
   // };
 
+  map.addLayer({
+
+  });
+
   map.addLayer({ ...dataLayer });
   map.addLayer({ ...clusterLayer });
+  map.addLayer({ ...clusterLabel });
   // map.addLayer({ ...clusterCountLayer });
   // map.addLayer({ ...unclusteredPointLayer });
   //adding bubble layer
 
-  /**
-   * On mouse hover
-   */
 
-  map.on("mousemove", "data", (e: any) => {
-    hoveredStateId = e.features[0].id;
+
+  /**
+   * *Cluster on click event
+   */
+  // inspect a cluster on click
+  map.on("mousemove", "clusters", function (e:any) {
+       
+    hoveredStateId = e.features[0].properties.region_id;
 
     if (data.features.length > 0) {
       if (data !== null) {
@@ -128,12 +146,12 @@ export function addDataLayer(map: any, data: any, cluster_data: any) {
     }
   });
 
+ 
   /**
    * On hover mouse leave
    */
 
   map.on("mouseleave", "data", () => {
-    console.log("ON LEAVEEE");
 
     if (hoveredStateId !== null) {
       map.setFeatureState(

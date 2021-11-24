@@ -26,3 +26,8 @@ a {
   border-radius: 50%;
   cursor: pointer;
 }
+
+
+.mapboxgl-ctrl-attrib-inner{
+  visibility: hidden;
+}

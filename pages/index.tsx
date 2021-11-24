@@ -39,7 +39,7 @@ const Home: NextPage = () => {
       touchZoom: false,
       touchRotate: false,
       keyboard: false,
-      doubleClickZoom: false,
+      doubleClickZoom: true,
       // maxBounds: [
       //   [-77.875588, 38.50705], // Southwest coordinates
       //   [-76.15381, 39.548764], // Northeast coordinates
@@ -66,18 +66,18 @@ const Home: NextPage = () => {
     //   });
   }, []);
 
-  //On click pins get the city information
-  //Get the city info on click
-  useEffect(() => {
-    console.log("This is pin info");
-    if (pinInfo) {
-      alert(`REGION: ${pinInfo.region}`);
-    } else {
-      console.log("No data");
-    }
-    // console.log(isMounted.current? pinInfo:"");
-    console.log("This is pin data");
-  }, [pinInfo]);
+  // //On click pins get the city information
+  // //Get the city info on click
+  // useEffect(() => {
+  //   console.log("This is pin info");
+  //   if (pinInfo) {
+  //     alert(`REGION: ${pinInfo.region}`);
+  //   } else {
+  //     console.log("No data");
+  //   }
+  //   // console.log(isMounted.current? pinInfo:"");
+  //   console.log("This is pin data");
+  // }, [pinInfo]);
 
   useEffect(() => {
     console.log("CITY DATA");
