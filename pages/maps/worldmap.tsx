@@ -12,20 +12,7 @@ import { initializeMap } from "../../map/initializeMap";
 import styles from "../../styles/Home.module.css";
 import { useState, useRef, useEffect, useMemo, useCallback, Props } from "react";
 
-//interfaces
-interface MapObject {
-    container?: string;
-    style?: string;
-    center?: Array<number>;
-    zoom?: number;
-    dragPan?: boolean;
-    dragRotate?: boolean;
-    scrollZoom?: boolean;
-    touchZoom?: boolean;
-    touchRotate?: boolean;
-    keyboard?: boolean;
-    doubleClickZoom?: boolean;
-  }
+
   
 const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
 

@@ -156,12 +156,14 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
    */
   map.on("click", "clusters", (e: any) => {
     clicked = !clicked;
+    
 
     map.flyTo({
       center: e.features[0].geometry.coordinates,
       zoom: clicked ? 3.2 : 0,
       bearing: 0,
       scrollZoom: false,
+      doubleClickZoom: false,
       speed: 2, // make the flying slow
       curve: 1, // change the speed at which it zooms out
 
