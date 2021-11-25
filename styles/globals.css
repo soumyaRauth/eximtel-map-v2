@@ -1,7 +1,7 @@
 html,
 body {
   padding: 0;
-  
+
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -16,7 +16,6 @@ a {
   box-sizing: border-box;
 }
 
-
 .marker {
   /* background-image: url('mapbox-icon.png'); */
   /* background-size: cover; */
@@ -27,8 +26,25 @@ a {
   cursor: pointer;
 }
 
-
-.mapboxgl-ctrl-attrib-inner{
+.mapboxgl-ctrl-attrib-inner {
   color: red;
   /* visibility: hidden;  */
+}
+
+.mapboxgl-popup-content {
+  position: absolute;
+  margin: 8px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  width: 120px;
+  font-size: 10px;
+  z-index: 9;
+  pointer-events: none;
+}
+
+
+/* There is a popup anchor arrow on the popup. The following class is to style that */
+.mapboxgl-popup-anchor-bottom > .mapboxgl-popup-tip {
+  border:0px;
 }

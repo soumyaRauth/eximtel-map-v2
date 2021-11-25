@@ -1,9 +1,12 @@
 export function addRegionLayer(map: any, data: any, cluster_data: any) {
+
+
   var hoveredStateId: any = null;
   var clicked: boolean = false;
   var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
+
   mapboxgl.accessToken =
-  "pk.eyJ1Ijoic2hvdW1tb3JhdXRoIiwiYSI6ImNrdTE0OTA5YTB6ZGQybnBjN3U4dTA3eHkifQ.YBf9n4C77kkV_vePiPHamQ";
+    "pk.eyJ1Ijoic2hvdW1tb3JhdXRoIiwiYSI6ImNrdTE0OTA5YTB6ZGQybnBjN3U4dTA3eHkifQ.YBf9n4C77kkV_vePiPHamQ";
 
   if (!map.getSource("data")) {
     map.addSource("data", {
@@ -30,19 +33,6 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
     id: "data",
     type: "fill",
     source: "data",
-    // layout: {},
-    // paint: {
-    //   "fill-color": {
-    //     property: "region",
-    //     type: "categorical",
-    //     stops: [
-    //       ["South Asia", "#f1f5f9"],
-    //       ["Middle Eash", "#f1f5f9"],
-    //     ],
-    //   },
-    //   "fill-opacity": 1,
-    // },
-
     layout: {},
     paint: {
       "fill-color": [
@@ -53,7 +43,7 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
       ],
       "fill-opacity": 0.5,
     },
-    // "fill-outline-color": "red",
+
   };
 
   //cluster map
@@ -92,54 +82,26 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
     },
   };
 
-  // const clusterCountLayer = {
-  //   id: 'cluster-count',
-  //   type: 'symbol',
-  //   source: 'cluster_data',
-  //   filter: ['has', 'volume'],
-  //   layout: {
-  //     'text-field': '{volume_abbreviated}',
-  //     'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-  //     'text-size': 12
-  //   }
-  // };
-
-  // const unclusteredPointLayer = {
-  //   id: 'unclustered-point',
-  //   type: 'circle',
-  //   source: 'cluster_data',
-  //   filter: ['has', 'volume'],
-  //   paint: {
-  //     'circle-color': ['step', ['get', 'volume'], '#c1dcf6', 200, '#c1dcf6', 50000, '#c1dcf6'],
-  //     'circle-radius': ['step', ['get', 'volume'], 20, 100, 30, 750, 40]
-  //   }
-  // };
 
   map.addLayer({ ...dataLayer });
   map.addLayer({ ...clusterLayer });
   map.addLayer({ ...clusterLabel });
   // map.addLayer({ ...clusterCountLayer });
   // map.addLayer({ ...unclusteredPointLayer });
-  //adding bubble layer
+  
 
   /**
    * *Cluster on click event
    */
-  // Create a popup, but don't add it to the map yet.
-  /**
-   * !YET TO MAKE IT WORK
-   */
+
   const popup = new mapboxgl.Popup({
     closeButton: false,
     closeOnClick: false,
   });
 
   map.on("mousemove", "clusters", function (e: any) {
-
     hoveredStateId = e.features[0].properties.region_id;
-    
-    
-    
+
     if (data.features.length > 0) {
       if (data !== null) {
         map.setFeatureState(
@@ -153,13 +115,15 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
   /**
    * *Mouse on hover change pointer
    */
-  map.on("mouseenter", "clusters", (e:any) => {
-    console.log("FDFDFDF");
+  map.on("mouseenter", "clusters", (e: any) => {
     const coordinates = e.features[0].geometry.coordinates.slice();
     popup
       .setLngLat(coordinates)
       .setHTML(
-        `<strong>Truckeroo</strong><p style="color:red">Truckeroo brings dozens of food trucks</p>`
+        `
+          <div>Region: ${e.features[0].properties.region}</div>
+          <div>Product Volume:  ${e.features[0].properties.volume}</div>
+      `
       )
       .addTo(map);
     map.getCanvas().style.cursor = "pointer";

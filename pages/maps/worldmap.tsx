@@ -67,7 +67,7 @@ const WorldMap: NextPage = ({mapObj}:any) => {
         <title>Eximtel Map</title>
         <link rel="icon" href="/favicon.ico" />
         <link
-          href="https://api.mapbox.com/styles/v1/shoummorauth/ckw93ttp8dpn714pcrwdfg5bq.html?title=view&access_token=pk.eyJ1Ijoic2hvdW1tb3JhdXRoIiwiYSI6ImNrdTE0OTA5YTB6ZGQybnBjN3U4dTA3eHkifQ.YBf9n4C77kkV_vePiPHamQ&zoomwheel=true&fresh=true#0.06/0/168.3"
+          href="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css"
           rel="stylesheet"
         />
       </Head>
