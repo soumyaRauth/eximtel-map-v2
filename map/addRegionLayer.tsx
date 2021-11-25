@@ -160,7 +160,8 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
 
     map.flyTo({
       center: e.features[0].geometry.coordinates,
-      zoom: clicked ? 3.2 : 0,
+      zoom: 3.2,
+      // zoom: clicked ? 3.2 : 0,  //commented out because this code adds the zoom out effect on the clusters
       bearing: 0,
       scrollZoom: false,
       doubleClickZoom: false,
