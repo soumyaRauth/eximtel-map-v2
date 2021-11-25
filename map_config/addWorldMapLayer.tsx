@@ -1,6 +1,4 @@
-export function addRegionLayer(map: any, data: any, cluster_data: any) {
-
-
+export function addWorldMapLayer(map: any, data: any,regionData:any, cluster_data: any) {
   var hoveredStateId: any = null;
   var clicked: boolean = false;
   var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
@@ -29,6 +27,7 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
     map.getSource("cluster_data").setData(data);
   }
 
+  //region information data layer
   const dataLayer = {
     id: "data",
     type: "fill",
@@ -43,10 +42,26 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
       ],
       "fill-opacity": 0.5,
     },
-
   };
 
-  //cluster map
+  //region information data layer
+  // const regionLayer = {
+  //   id: "region_data",
+  //   type: "fill",
+  //   source: "regionData",
+  //   layout: {},
+  //   paint: {
+  //     "fill-color": [
+  //       "case",
+  //       ["boolean", ["feature-state", "hover"], false],
+  //       "#85C1E9", //on hover color
+  //       "#e4ecf3", //default color
+  //     ],
+  //     "fill-opacity": 0.5,
+  //   },
+  // };
+
+  //cluster information data layer
   const clusterLayer = {
     id: "clusters",
     type: "circle",
@@ -66,7 +81,7 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
       "circle-opacity": 0.8,
     },
   };
-
+  //
   const clusterLabel = {
     id: "cluster-count",
     type: "symbol",
@@ -82,13 +97,11 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
     },
   };
 
-
   map.addLayer({ ...dataLayer });
   map.addLayer({ ...clusterLayer });
   map.addLayer({ ...clusterLabel });
   // map.addLayer({ ...clusterCountLayer });
   // map.addLayer({ ...unclusteredPointLayer });
-  
 
   /**
    * *Cluster on click event
@@ -156,7 +169,6 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
    */
   map.on("click", "clusters", (e: any) => {
     clicked = !clicked;
-    
 
     map.flyTo({
       center: e.features[0].geometry.coordinates,
@@ -175,5 +187,12 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
       // this animation is considered essential with respect to prefers-reduced-motion
       essential: true,
     });
+
+    console.log("This is data layer");
+    console.log(dataLayer);
+
+    // map.removeLayer({dataLayer});
+
+
   });
 }

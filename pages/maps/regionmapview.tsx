@@ -5,10 +5,10 @@ import Head from "next/head";
 import useSWR from "swr";
 
 import fetcher from "../../utilities/fetcher";
-import { addRegionLayer } from "../../map/addRegionLayer";
+import { addWorldMapLayer } from "../../map_config/addWorldMapLayer";
 
 import * as CITIES from "../api/cities.json";
-import { initializeMap } from "../../map/initializeMap";
+import { initializeMap } from "../../map_config/initializeMap";
 import styles from "../../styles/Home.module.css";
 import { useState, useRef, useEffect, useMemo, useCallback, Props } from "react";
 
@@ -23,7 +23,7 @@ const WorldMap: NextPage = ({mapObj}:any) => {
   const [pageIsMounted, setPageIsMounted] = useState(false);
   const [Map, setMap] = useState();
   const [regioncentre, setRegionCentre] = useState(null);
-  const { data, error } = useSWR("/api/asia", fetcher);
+  const { data, error } = useSWR("/api/regions", fetcher);
   const [pinInfo, setPinInfo] = useState(null);
 
   useEffect(() => {
@@ -36,14 +36,13 @@ const WorldMap: NextPage = ({mapObj}:any) => {
     setMap(map);
   }, []);
 
-  
 
   useEffect(() => {
     let region_centres = Object.values(CITIES);
  
     if (pageIsMounted && data) {
       Map.on("load", function () {
-        addRegionLayer(Map, data, region_centres[2]);
+        addWorldMapLayer(Map, data, region_centres[2]);
       });
     }
   }, [pageIsMounted, setMap, data, Map]);

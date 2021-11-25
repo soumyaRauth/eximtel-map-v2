@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import WorldMap from "./worldmap";
-import React, { useState, useEffect } from "react";
+import WorldMapView from "./worldmapview";
+
 
 //interfaces
 interface MapObject {
@@ -42,7 +42,7 @@ const BaseComponent: NextPage<MapObject>  = () => {
 
   return (
     <>
-      <WorldMap mapObj={mapObject}></WorldMap> 
+      <WorldMapView mapObj={mapObject}></WorldMapView> 
     </>
   );
 };
