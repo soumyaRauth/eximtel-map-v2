@@ -73,7 +73,7 @@ export function addRegionLayer(map: any, data: any, cluster_data: any) {
     source: "cluster_data",
     filter: ["has", "region"],
     layout: {
-      "text-field": "{region}",
+      "text-field": `{region}`,
       "text-font": ["Open Sans Bold"],
       "text-size": 8,
     },
