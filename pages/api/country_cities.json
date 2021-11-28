@@ -6,14 +6,50 @@
         "id": 1,
         "properties": {
           "id":1,
-          "name": "DELHI",
-          "volume": 800,
+          "name": "DHAKA",
+          "volume": 100,
+          "country_id":1,
           "region_id":1,
+          "country": "Bangladesh",
           "region": "South Asia"
         },
         "geometry": {
-          "type": "Point",
-          "coordinates": [77.43665079572656, 25.690700411121455]
+          "type": "Point", 
+          "coordinates": [90.09458070341321, 23.594877581026793]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": 10,
+        "properties": {
+          "id":1,
+          "name": "DELHI",
+          "volume": 200,
+          "country_id":1,
+          "region_id":1,
+          "country": "India",
+          "region": "South Asia"
+        },
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [77.39338400844917, 26.162841942197502]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": 9,
+        "properties": {
+          "id":1,
+          "name": "ISLAMABAD",
+          "volume": 200,
+          "country_id":1,
+          "region_id":1,
+          "country": "Pakistan",
+          "region": "South Asia"
+        },
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [69.51252099892281, 30.20795390027689]
         }
       },
       {

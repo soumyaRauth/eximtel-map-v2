@@ -2,7 +2,8 @@ export function addWorldMapLayer(
   map: any,
   data: any,
   single_region: any,
-  cluster_data: any
+  cluster_data: any,
+  country_cities:any
 ) {
   var hoveredStateId: any = null;
   var clicked: boolean = false;
@@ -52,6 +53,19 @@ export function addWorldMapLayer(
     });
   } else {
     map.getSource("cluster_data").setData(data);
+  }
+
+
+  if (!map.getSource("country_cities")) {
+    map.addSource("country_cities", {
+      type: "geojson",
+      data: country_cities,
+      cluster: true,
+      clusterMaxZoom: 1,
+      clusterRadius: 2,
+    });
+  } else {
+    map.getSource("country_cities").setData(country_cities);
   }
 
   //world information data layer
@@ -113,7 +127,7 @@ export function addWorldMapLayer(
   const clusterLayerForCountry = {
     id: "country_cluster",
     type: "circle",
-    source: "cluster_data",
+    source: "country_cities",
     filter: ["has", "volume"],
     paint: {
       "circle-color": [
@@ -137,6 +151,22 @@ export function addWorldMapLayer(
     filter: ["has", "region"],
     layout: {
       "text-field": `{region}`,
+      "text-font": ["Open Sans Bold"],
+      "text-size": 8,
+    },
+    paint: {
+      "text-color": "grey",
+    },
+  };
+
+
+  const countryClusterLabel = {
+    id: "country-cluster-count",
+    type: "symbol",
+    source: "country_cities",
+    filter: ["has", "country"],
+    layout: {
+      "text-field": `{country}`,
       "text-font": ["Open Sans Bold"],
       "text-size": 8,
     },
@@ -174,22 +204,43 @@ export function addWorldMapLayer(
   });
 
 
- 
+  //data onclick
+  map.on("click", "single_region", function (e: any) {
 
-  map.on("mousemove", "country_cluster", function (e: any) {
+    console.log("COUNTRY POINTS");
+    console.log(e);
     
+    // hoveredStateId = e.features[0].properties.region_id;
+
+    // if (data.features.length > 0) {
+    //   if (data !== null) {
+    //     map.setFeatureState(
+    //       { source: "data", id: hoveredStateId },
+    //       { hover: true }
+    //     );
+    //   }
+    // }
+  });
+
+
+ 
+/**
+ * *On hover on the country clusters
+ */
+  map.on("mousemove", "country_cluster", function (e: any) {
+
     hoveredStateId = e.features[0].id;
-    console.log("Country Cluster");
-    console.log(e.features[0].properties);
-
-
 
     if (single_region.features.length > 0) {
       if (single_region !== null) {
+        console.log("into country cluster");
+        
         map.setFeatureState(
           { source: "single_region", id: hoveredStateId },
           { hover: true }
         );
+
+      
       }
     }
 
@@ -229,9 +280,29 @@ export function addWorldMapLayer(
     popup.remove();
   });
 
+/**
+   * On hover mouse leave on region map
+   */
+
+  map.on("mouseleave", "single_region", () => {
+
+    if (hoveredStateId !== null) {
+      console.log("hoveredStateId");
+    console.log(hoveredStateId);
+      map.setFeatureState(
+        { source: "single_region", id: hoveredStateId },
+        { hover: false }
+      );
+    }else{
+      console.log("hover stated id is");
+      console.log(hoveredStateId);
+      
+    }
+    hoveredStateId = null;
+  });
 
   /**
-   * On hover mouse leave
+   * On hover mouse leave on world map
    */
 
   map.on("mouseleave", "data", () => {
@@ -243,6 +314,9 @@ export function addWorldMapLayer(
     }
     hoveredStateId = null;
   });
+
+
+
 
   /**
    * *Click on the bubble zoom effect
@@ -268,15 +342,15 @@ export function addWorldMapLayer(
       essential: true,
     });
 
-    // map.removeLayer("data");
-    // map.removeLayer("clusters");
-    // map.removeLayer("cluster-count");
+    map.removeLayer("data");
+    map.removeLayer("clusters");
+    map.removeLayer("cluster-count");
     // // map.removeLayer("clusters");
 
     
-    // map.addLayer({ ...singleRegionMapLayer });
-    // map.addLayer({ ...clusterLayerForCountry });
-    // map.addLayer({ ...clusterLabel });
+    map.addLayer({ ...singleRegionMapLayer });
+    map.addLayer({ ...clusterLayerForCountry });
+    map.addLayer({ ...countryClusterLabel });
 
 
   });
