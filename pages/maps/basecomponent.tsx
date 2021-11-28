@@ -23,7 +23,7 @@ const mapObject:MapObject = {
     container: "world-map",
     style: "mapbox://styles/shoummorauth/ckw8z8avm3fcs14paluhc6a4v",
     center: [20.5937, 78.9629],
-    zoom: 0.5,
+    zoom: 0.7,
     dragPan: false,
     dragRotate: false,
     scrollZoom: false,

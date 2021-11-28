@@ -58,6 +58,7 @@ const WorldMapView: NextPage = ({mapObj}:any) => {
   
 
   return (
+    
     <div className={styles.container}>
       <Head>
         <title>Eximtel Map</title>
@@ -67,6 +68,7 @@ const WorldMapView: NextPage = ({mapObj}:any) => {
           rel="stylesheet"
         />
       </Head>
+      <button id="back_to_previous">Switch layers</button>
 
       <main className={styles.main}>
         <div id="world-map" style={{ height: 550, width: 700 }} />
