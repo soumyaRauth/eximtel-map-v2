@@ -1,8 +1,23 @@
-export function addWorldMapLayer(map: any, data: any, singleRegion:any, cluster_data: any) {
+export function addWorldMapLayer(
+  map: any,
+  data: any,
+  single_region: any,
+  cluster_data: any
+) {
   var hoveredStateId: any = null;
   var clicked: boolean = false;
   var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
-  
+
+  console.log("SINGLE REGION DATA FROM LAYER");
+  console.log(data);
+  var single_region = single_region.reduce(function (r: any, e: any) {
+    // r[e.field] = e.value;
+
+    return e;
+  }, {});
+
+  console.log("SINGLE REGION DATA FROM DDDDD");
+  console.log(single_region);
 
   mapboxgl.accessToken =
     "pk.eyJ1Ijoic2hvdW1tb3JhdXRoIiwiYSI6ImNrdTE0OTA5YTB6ZGQybnBjN3U4dTA3eHkifQ.YBf9n4C77kkV_vePiPHamQ";
@@ -14,6 +29,17 @@ export function addWorldMapLayer(map: any, data: any, singleRegion:any, cluster_
     });
   } else {
     map.getSource("data").setData(data);
+  }
+
+
+
+  if (!map.getSource("single_region")) {
+    map.addSource("single_region", {
+      type: "geojson",
+      data: single_region,
+    });
+  } else {
+    map.getSource("single_region").setData(single_region);
   }
 
   if (!map.getSource("cluster_data")) {
@@ -28,8 +54,8 @@ export function addWorldMapLayer(map: any, data: any, singleRegion:any, cluster_
     map.getSource("cluster_data").setData(data);
   }
 
-  //region information data layer
-  const dataLayer = {
+  //world information data layer
+  const worldMapLayer = {
     id: "data",
     type: "fill",
     source: "data",
@@ -45,26 +71,47 @@ export function addWorldMapLayer(map: any, data: any, singleRegion:any, cluster_
     },
   };
 
-  //region information data layer
-  // const regionLayer = {
-  //   id: "region_data",
-  //   type: "fill",
-  //   source: "regionData",
-  //   layout: {},
-  //   paint: {
-  //     "fill-color": [
-  //       "case",
-  //       ["boolean", ["feature-state", "hover"], false],
-  //       "#85C1E9", //on hover color
-  //       "#e4ecf3", //default color
-  //     ],
-  //     "fill-opacity": 0.5,
-  //   },
-  // };
+  //Single Region information data layer
+  const singleRegionMapLayer = {
+    id: "single_region",
+    type: "fill",
+    source: "single_region",
+    layout: {},
+    paint: {
+      "fill-color": [
+        "case",
+        ["boolean", ["feature-state", "hover"], false],
+        "#85C1E9", //on hover color
+        "#e4ecf3", //default color
+      ],
+      "fill-opacity": 0.5,
+    },
+  };
 
   //cluster information data layer
-  const clusterLayer = {
+  const clusterLayerForWorld = {
     id: "clusters",
+    type: "circle",
+    source: "cluster_data",
+    filter: ["has", "volume"],
+    paint: {
+      "circle-color": [
+        "step",
+        ["get", "volume"],
+        "#c1dcf6",
+        200,
+        "#c1dcf6",
+        500,
+        "#c1dcf6",
+      ],
+      "circle-radius": ["step", ["get", "volume"], 20, 100, 15, 750, 40],
+      "circle-opacity": 0.8,
+    },
+  };
+
+  //cluster information data layer
+  const clusterLayerForCountry = {
+    id: "country_cluster",
     type: "circle",
     source: "cluster_data",
     filter: ["has", "volume"],
@@ -98,8 +145,8 @@ export function addWorldMapLayer(map: any, data: any, singleRegion:any, cluster_
     },
   };
 
-  map.addLayer({ ...dataLayer });
-  map.addLayer({ ...clusterLayer });
+  map.addLayer({ ...worldMapLayer });
+  map.addLayer({ ...clusterLayerForWorld });
   map.addLayer({ ...clusterLabel });
   // map.addLayer({ ...clusterCountLayer });
   // map.addLayer({ ...unclusteredPointLayer });
@@ -120,6 +167,35 @@ export function addWorldMapLayer(map: any, data: any, singleRegion:any, cluster_
       if (data !== null) {
         map.setFeatureState(
           { source: "data", id: hoveredStateId },
+          { hover: true }
+        );
+      }
+    }
+  });
+
+
+  //hererere
+  map.on("mousemove", "country_cluster", function (e: any) {
+    hoveredStateId = e.features[0].properties.region_id;
+
+    if (single_region.features.length > 0) {
+      if (single_region !== null) {
+        map.setFeatureState(
+          { source: "data", id: hoveredStateId },
+          { hover: true }
+        );
+      }
+    }
+  });
+
+
+  map.on("mousemove", "country_cluster", function (e: any) {
+    hoveredStateId = e.features[0].properties.region_id;
+
+    if (data.features.length > 0) {
+      if (data !== null) {
+        map.setFeatureState(
+          { source: "single_region", id: hoveredStateId },
           { hover: true }
         );
       }
@@ -189,10 +265,12 @@ export function addWorldMapLayer(map: any, data: any, singleRegion:any, cluster_
       essential: true,
     });
 
-    console.log("This is data layer");
-    console.log(dataLayer);
+    map.removeLayer("data");
+    // map.removeLayer("clusters");
 
-    // map.removeLayer({dataLayer});
+    
+      map.addLayer({ ...clusterLayerForCountry });
+      map.addLayer({ ...singleRegionMapLayer });
 
 
   });
