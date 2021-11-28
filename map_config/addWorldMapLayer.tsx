@@ -174,33 +174,35 @@ export function addWorldMapLayer(
   });
 
 
-  //hererere
+ 
+
   map.on("mousemove", "country_cluster", function (e: any) {
-    hoveredStateId = e.features[0].properties.region_id;
+    
+    hoveredStateId = e.features[0].id;
+    console.log("Country Cluster");
+    console.log(e.features[0].properties);
+
+
 
     if (single_region.features.length > 0) {
       if (single_region !== null) {
-        map.setFeatureState(
-          { source: "data", id: hoveredStateId },
-          { hover: true }
-        );
-      }
-    }
-  });
-
-
-  map.on("mousemove", "country_cluster", function (e: any) {
-    hoveredStateId = e.features[0].properties.region_id;
-
-    if (data.features.length > 0) {
-      if (data !== null) {
         map.setFeatureState(
           { source: "single_region", id: hoveredStateId },
           { hover: true }
         );
       }
     }
+
+    map.getCanvas().style.cursor = "pointer";
   });
+
+    /**
+   * *Mouse on hover leave change pointer
+   */
+     map.on("mouseleave", "country_cluster", () => {
+      map.getCanvas().style.cursor = "";
+      // popup.remove();
+    });
 
   /**
    * *Mouse on hover change pointer
@@ -226,6 +228,7 @@ export function addWorldMapLayer(
     map.getCanvas().style.cursor = "";
     popup.remove();
   });
+
 
   /**
    * On hover mouse leave
@@ -265,12 +268,15 @@ export function addWorldMapLayer(
       essential: true,
     });
 
-    map.removeLayer("data");
+    // map.removeLayer("data");
     // map.removeLayer("clusters");
+    // map.removeLayer("cluster-count");
+    // // map.removeLayer("clusters");
 
     
-      map.addLayer({ ...clusterLayerForCountry });
-      map.addLayer({ ...singleRegionMapLayer });
+    // map.addLayer({ ...singleRegionMapLayer });
+    // map.addLayer({ ...clusterLayerForCountry });
+    // map.addLayer({ ...clusterLabel });
 
 
   });
