@@ -252,6 +252,10 @@ export function addWorldMapLayer(
    */
      map.on("mouseleave", "country_cluster", () => {
       map.getCanvas().style.cursor = "";
+      map.setFeatureState(
+        { source: "single_region", id: hoveredStateId },
+        { hover: false }
+      );
       // popup.remove();
     });
 
@@ -277,6 +281,10 @@ export function addWorldMapLayer(
    */
   map.on("mouseleave", "clusters", () => {
     map.getCanvas().style.cursor = "";
+    map.setFeatureState(
+      { source: "single_region", id: hoveredStateId },
+      { hover: false }
+    );
     popup.remove();
   });
 
@@ -287,8 +295,6 @@ export function addWorldMapLayer(
   map.on("mouseleave", "single_region", () => {
 
     if (hoveredStateId !== null) {
-      console.log("hoveredStateId");
-    console.log(hoveredStateId);
       map.setFeatureState(
         { source: "single_region", id: hoveredStateId },
         { hover: false }
