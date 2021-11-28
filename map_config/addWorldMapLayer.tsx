@@ -115,7 +115,7 @@ export function addWorldMapLayer(
         500,
         "#c1dcf6",
       ],
-      "circle-radius": ["step", ["get", "volume"], 20, 100, 15, 750, 40],
+      "circle-radius": ["step", ["get", "volume"], 20, 100, 15, 750, 20],
       "circle-opacity": 0.8,
     },
   };
