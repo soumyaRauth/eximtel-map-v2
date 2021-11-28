@@ -1,7 +1,8 @@
-export function addWorldMapLayer(map: any, data: any,regionData:any, cluster_data: any) {
+export function addWorldMapLayer(map: any, data: any, singleRegion:any, cluster_data: any) {
   var hoveredStateId: any = null;
   var clicked: boolean = false;
   var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
+  
 
   mapboxgl.accessToken =
     "pk.eyJ1Ijoic2hvdW1tb3JhdXRoIiwiYSI6ImNrdTE0OTA5YTB6ZGQybnBjN3U4dTA3eHkifQ.YBf9n4C77kkV_vePiPHamQ";

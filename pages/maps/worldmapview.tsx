@@ -4,10 +4,12 @@ import { Marker } from "react-map-gl";
 import Head from "next/head";
 import useSWR from "swr";
 
+
 import fetcher from "../../utilities/fetcher";
 import { addWorldMapLayer } from "../../map_config/addWorldMapLayer";
 
 import * as CITIES from "../api/cities.json";
+import * as SINGLEREGION from "../api/single_region.json";
 import { initializeMap } from "../../map_config/initializeMap";
 import styles from "../../styles/Home.module.css";
 import { useState, useRef, useEffect, useMemo, useCallback, Props } from "react";
@@ -38,13 +40,17 @@ const WorldMapView: NextPage = ({mapObj}:any) => {
   }, []);
 
   
+ 
 
   useEffect(() => {
+    let getSingleRegion = Object.values(SINGLEREGION);
+    console.log("GET SINGLE REGION");
+    console.log(getSingleRegion);
     let region_centres = Object.values(CITIES);
  
     if (pageIsMounted && data) {
       Map.on("load", function () {
-        addWorldMapLayer(Map, data, region_centres[2]);
+        addWorldMapLayer(Map, data,getSingleRegion, region_centres[2]);
       });
     }
   }, [pageIsMounted, setWorldMap, data, Map]);
