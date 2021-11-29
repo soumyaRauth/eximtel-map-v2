@@ -8,12 +8,12 @@ export function addWorldMapLayer(
   var hoveredStateId: any = null;
   var clicked: boolean = false;
   var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
+  var zoomOut=document.getElementsByClassName("mapboxgl-ctrl-zoom-out");
 
   console.log("SINGLE REGION DATA FROM LAYER");
   console.log(data);
+  
   var single_region = single_region.reduce(function (r: any, e: any) {
-    // r[e.field] = e.value;
-
     return e;
   }, {});
 
@@ -115,7 +115,23 @@ export function addWorldMapLayer(
         500,
         "#c1dcf6",
       ],
-      "circle-radius": ["step", ["get", "volume"], 20, 100, 15, 750, 20],
+      // "circle-radius": ["step", ["get", "volume"], 20, 100, 15, 750, 40],
+      "circle-radius": {
+        "property": "volume",
+        "stops": [
+            // zoom is 0 and "rating" is 0 -> circle radius will be 0px
+            [{zoom: 0, value: 0}, 0],
+
+            // zoom is 0 and "rating" is 5 -> circle radius will be 5px
+            [{zoom: 0, value: 5}, 10],
+
+            // zoom is 20 and "rating" is 0 -> circle radius will be 0px
+            [{zoom: 0, value: 100}, 15],
+
+            // zoom is 20 and "rating" is 5 -> circle radius will be 20px
+            [{zoom: 0, value: 200}, 20]
+        ]
+    },
       "circle-opacity": 0.8,
     },
   };
@@ -136,7 +152,22 @@ export function addWorldMapLayer(
         500,
         "#c1dcf6",
       ],
-      "circle-radius": ["step", ["get", "volume"], 20, 100, 15, 750, 40],
+      "circle-radius": {
+        "property": "volume",
+        "stops": [
+            // zoom is 0 and "rating" is 0 -> circle radius will be 0px
+            [{zoom: 0, value: 0}, 0],
+
+            // zoom is 0 and "rating" is 5 -> circle radius will be 5px
+            [{zoom: 0, value: 5}, 10],
+
+            // zoom is 20 and "rating" is 0 -> circle radius will be 0px
+            [{zoom: 0, value: 100}, 15],
+
+            // zoom is 20 and "rating" is 5 -> circle radius will be 20px
+            [{zoom: 0, value: 200}, 20]
+        ]
+    },
       "circle-opacity": 0.8,
     },
   };
@@ -176,6 +207,17 @@ export function addWorldMapLayer(
   map.addLayer({ ...clusterLabel });
   // map.addLayer({ ...clusterCountLayer });
   // map.addLayer({ ...unclusteredPointLayer });
+
+
+
+
+  var myFunction = function() {
+    alert("HEllo");
+};
+
+for (var i = 0; i < zoomOut.length; i++) {
+    zoomOut[i].addEventListener('click', myFunction, false);
+}
 
   /**
    * *Cluster on click event
@@ -329,16 +371,26 @@ export function addWorldMapLayer(
     hoveredStateId = null;
   });
 
+
+  // var zoomOut=document.getElementsByClassName("mapboxgl-ctrl-zoom-out");
+  // console.log(zoomOut);
+  
+
+
+  
+
   /**
    * *Click on the bubble zoom effect
    */
   map.on("click", "clusters", (e: any) => {
     clicked = !clicked;
 
-    map.addControl(new mapboxgl.NavigationControl({
-      showCompass: false,
-      showZoom: true
-    }));
+    // map.addControl(new mapboxgl.NavigationControl({
+    //   showCompass: false,
+    //   showZoom: true
+    // }));
+
+    map.addControl(new mapboxgl.ZoomControl(), 'top-right');
   
 
    

@@ -7,7 +7,7 @@
       "properties": {
         "id":1,
         "name": "DELHI",
-        "volume": 800,
+        "volume": 4,
         "region_id":1,
         "region": "South Asia"
       },
@@ -22,13 +22,29 @@
       
       "properties": {
         "name": "RIYADH",
-        "volume": 200,
+        "volume": 110,
         "region_id":2,
         "region": "Middle East"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [44.6953718032302, 25.075179026382486]
+      }
+      
+    },
+    {
+      "type": "Feature",
+      "id": 2,
+      
+      "properties": {
+        "name": "Mascot",
+        "volume": 800,
+        "region_id":3,
+        "region": "Middle East"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [60.659735143707394, 40.083399918248844]
       }
     }
   ]

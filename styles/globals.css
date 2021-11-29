@@ -48,3 +48,8 @@ a {
 .mapboxgl-popup-anchor-bottom > .mapboxgl-popup-tip {
   border:0px;
 }
+
+
+.mapboxgl-ctrl-icon{
+  border:1 solid red;
+}
