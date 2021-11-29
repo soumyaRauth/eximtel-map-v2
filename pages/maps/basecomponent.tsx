@@ -23,7 +23,7 @@ const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
 const mapObject:MapObject = {
     container: "world-map",
     style: "mapbox://styles/shoummorauth/ckw8z8avm3fcs14paluhc6a4v",
-    center: [20.5937, 78.9629],
+    center: [25.085598897064756, 44.6923828125],
     zoom: 0.7,
     dragPan: false,
     dragRotate: false,

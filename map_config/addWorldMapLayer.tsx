@@ -8,12 +8,12 @@ export function addWorldMapLayer(
   var hoveredStateId: any = null;
   var clicked: boolean = false;
   var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
-  var backButton=document.getElementById("fly");
-  backButton.style.visibility="hidden";
+  var backButton = document.getElementById("fly");
+  backButton.style.visibility = "hidden";
 
   console.log("SINGLE REGION DATA FROM LAYER");
   console.log(data);
-  
+
   var single_region = single_region.reduce(function (r: any, e: any) {
     return e;
   }, {});
@@ -96,9 +96,28 @@ export function addWorldMapLayer(
         "#85C1E9", //on hover color
         "#e4ecf3", //default color
       ],
-      "fill-opacity": 0.5,
+      "fill-opacity": 0.5
     },
   };
+
+  //Single Region information data layer
+  // const singleRegionMapLayerBorder = {
+  //   id: "single_region_line",
+  //   type: "line",
+  //   source: "single_region",
+  //   layout: {},
+  //   paint: {
+  //     "line-color": [
+  //       "case",
+  //       ["boolean", ["feature-state", "hover"], false],
+  //       "red", //on hover color
+  //       "black", //default color
+  //     ],
+  //       // 'line-color': '#E2E8F0',
+  //       'line-width': 2,
+      
+  //   },
+  // };
 
   //cluster information data layer
   const clusterLayerForWorld = {
@@ -118,21 +137,21 @@ export function addWorldMapLayer(
       ],
       // "circle-radius": ["step", ["get", "volume"], 20, 100, 15, 750, 40],
       "circle-radius": {
-        "property": "volume",
-        "stops": [
-            // zoom is 0 and "rating" is 0 -> circle radius will be 0px
-            [{zoom: 0, value: 0}, 0],
+        property: "volume",
+        stops: [
+          // zoom is 0 and "rating" is 0 -> circle radius will be 0px
+          [{ zoom: 0, value: 0 }, 0],
 
-            // zoom is 0 and "rating" is 5 -> circle radius will be 5px
-            [{zoom: 0, value: 5}, 10],
+          // zoom is 0 and "rating" is 5 -> circle radius will be 5px
+          [{ zoom: 0, value: 5 }, 10],
 
-            // zoom is 20 and "rating" is 0 -> circle radius will be 0px
-            [{zoom: 0, value: 100}, 15],
+          // zoom is 20 and "rating" is 0 -> circle radius will be 0px
+          [{ zoom: 0, value: 100 }, 15],
 
-            // zoom is 20 and "rating" is 5 -> circle radius will be 20px
-            [{zoom: 0, value: 200}, 20]
-        ]
-    },
+          // zoom is 20 and "rating" is 5 -> circle radius will be 20px
+          [{ zoom: 0, value: 200 }, 20],
+        ],
+      },
       "circle-opacity": 0.8,
     },
   };
@@ -154,21 +173,21 @@ export function addWorldMapLayer(
         "#c1dcf6",
       ],
       "circle-radius": {
-        "property": "volume",
-        "stops": [
-            // zoom is 0 and "rating" is 0 -> circle radius will be 0px
-            [{zoom: 0, value: 0}, 0],
+        property: "volume",
+        stops: [
+          // zoom is 0 and "rating" is 0 -> circle radius will be 0px
+          [{ zoom: 0, value: 0 }, 0],
 
-            // zoom is 0 and "rating" is 5 -> circle radius will be 5px
-            [{zoom: 0, value: 5}, 10],
+          // zoom is 0 and "rating" is 5 -> circle radius will be 5px
+          [{ zoom: 0, value: 5 }, 10],
 
-            // zoom is 20 and "rating" is 0 -> circle radius will be 0px
-            [{zoom: 0, value: 100}, 15],
+          // zoom is 20 and "rating" is 0 -> circle radius will be 0px
+          [{ zoom: 0, value: 100 }, 15],
 
-            // zoom is 20 and "rating" is 5 -> circle radius will be 20px
-            [{zoom: 0, value: 200}, 20]
-        ]
-    },
+          // zoom is 20 and "rating" is 5 -> circle radius will be 20px
+          [{ zoom: 0, value: 200 }, 20],
+        ],
+      },
       "circle-opacity": 0.8,
     },
   };
@@ -209,11 +228,6 @@ export function addWorldMapLayer(
   // map.addLayer({ ...clusterCountLayer });
   // map.addLayer({ ...unclusteredPointLayer });
 
-
-
-
-
-
   /**
    * *Cluster on click event
    */
@@ -247,11 +261,12 @@ export function addWorldMapLayer(
    */
   map.on("mousemove", "country_cluster", function (e: any) {
     hoveredStateId = e.features[0].id;
+    console.log("hoveredStateId");
+    console.log(hoveredStateId);
+    
 
     if (single_region.features.length > 0) {
       if (single_region !== null) {
-        
-
         map.setFeatureState(
           { source: "single_region", id: hoveredStateId },
           { hover: true }
@@ -338,9 +353,6 @@ export function addWorldMapLayer(
     hoveredStateId = null;
   });
 
-
- 
-
   /**
    * On hover mouse leave on world map
    */
@@ -355,57 +367,43 @@ export function addWorldMapLayer(
     hoveredStateId = null;
   });
 
-
-
-   document.getElementById("fly").addEventListener("click", () => {
-      
-      
-      map.flyTo({
-        center: [20.5937, 78.9629],
-        zoom: 0,
-        // zoom: clicked ? 3.2 : 0,  //commented out because this code adds the zoom out effect on the clusters
-        bearing: 0,
-        scrollZoom: false,
-        doubleClickZoom: false,
-        speed: 2, // make the flying slow
-        curve: 1, // change the speed at which it zooms out
-  
-        // This can be any easing function: it takes a number between
-        // 0 and 1 and returns another number between 0 and 1.
-        easing: (t: any) => t,
-  
-        // this animation is considered essential with respect to prefers-reduced-motion
-        essential: true,
-      });
-
-
-      map.removeLayer("single_region");
-      map.removeLayer("country_cluster");
-      // map.removeLayer("cluster-count");
-      // // map.removeLayer("clusters");
-  
-      map.addLayer({ ...worldMapLayer });
-      map.addLayer({ ...clusterLayerForWorld });
-      map.addLayer({ ...clusterLabel });
-
-      backButton.style.visibility="hidden";
-
+  document.getElementById("fly").addEventListener("click", () => {
+    map.flyTo({
+      zoom:0,
+      center: [
+        -45.5 ,
+        44,
+      ],
+      essential: true, // this animation is considered essential with respect to prefers-reduced-motion
     });
+
+    map.removeLayer("single_region");
+    map.removeLayer("country_cluster");
+    map.removeLayer("single_region_line");
+
+    // map.removeLayer("cluster-count");
+    // // map.removeLayer("clusters");
+
+    map.addLayer({ ...worldMapLayer });
+    map.addLayer({ ...clusterLayerForWorld });
+    map.addLayer({ ...clusterLabel });
+
+    backButton.style.visibility = "hidden";
+  });
 
   // var zoomOut=document.getElementsByClassName("mapboxgl-ctrl-zoom-out");
   // console.log(zoomOut);
-
 
   /**
    * *Click on the bubble zoom effect
    */
   map.on("click", "clusters", (e: any) => {
-    backButton.style.visibility="visible";
+    console.log("e.features[0].geometry.coordinates");
+    console.log(e.features[0].geometry.coordinates);
 
-   
+    backButton.style.visibility = "visible";
+
     clicked = !clicked;
-
-   
 
     map.flyTo({
       center: e.features[0].geometry.coordinates,
@@ -431,18 +429,16 @@ export function addWorldMapLayer(
     // // map.removeLayer("clusters");
 
     map.addLayer({ ...singleRegionMapLayer });
+    // map.addLayer({ ...singleRegionMapLayerBorder });
     map.addLayer({ ...clusterLayerForCountry });
-    // map.addLayer({ ...countryClusterLabel });
 
-    
+    // map.addLayer({ ...countryClusterLabel });
   });
 
-
- 
   /**
    * *Click on the bubble zoom effect
    */
   // map.on("click", "country_cluster", (e: any) => {
-    
+
   // });
 }
