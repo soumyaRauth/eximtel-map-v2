@@ -31,21 +31,6 @@
         "coordinates": [44.6953718032302, 25.075179026382486]
       }
       
-    },
-    {
-      "type": "Feature",
-      "id": 2,
-      
-      "properties": {
-        "name": "Mascot",
-        "volume": 800,
-        "region_id":3,
-        "region": "Middle East"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [60.659735143707394, 40.083399918248844]
-      }
     }
   ]
 }

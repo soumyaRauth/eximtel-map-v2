@@ -53,3 +53,39 @@ a {
 .mapboxgl-ctrl-icon{
   border:1 solid red;
 }
+
+
+#fly {
+  margin-bottom: 0.5rem;
+  visibility: 'hidden';
+  display: block;
+  position: relative;
+  margin-left: 3rem;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  background: #ee8a65;
+  }
+
+  #fly:hover {
+    cursor: pointer;
+}
+
+
+.mapboxgl-ctrl-attrib-inner{
+  visibility: hidden;
+}
+
+.mapboxgl-ctrl-logo{
+  visibility: hidden;
+}
+
+
+#fly:disabled,
+#fly[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}

@@ -8,6 +8,7 @@ interface MapObject {
   style?: string;
   center?: Array<number>;
   zoom?: number;
+  maxZoom?: number;
   dragPan?: boolean;
   dragRotate?: boolean;
   scrollZoom?: boolean;
@@ -31,6 +32,7 @@ const mapObject:MapObject = {
     touchRotate: false,
     keyboard: false,
     doubleClickZoom: false,
+
   };
 
 mapboxgl.accessToken =
@@ -42,7 +44,9 @@ const BaseComponent: NextPage<MapObject>  = () => {
 
   return (
     <>
+  
       <WorldMapView mapObj={mapObject}></WorldMapView> 
+   
     </>
   );
 };

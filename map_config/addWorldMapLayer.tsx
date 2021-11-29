@@ -8,7 +8,8 @@ export function addWorldMapLayer(
   var hoveredStateId: any = null;
   var clicked: boolean = false;
   var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
-  var zoomOut=document.getElementsByClassName("mapboxgl-ctrl-zoom-out");
+  var backButton=document.getElementById("fly");
+  backButton.style.visibility="hidden";
 
   console.log("SINGLE REGION DATA FROM LAYER");
   console.log(data);
@@ -211,13 +212,7 @@ export function addWorldMapLayer(
 
 
 
-  var myFunction = function() {
-    alert("HEllo");
-};
 
-for (var i = 0; i < zoomOut.length; i++) {
-    zoomOut[i].addEventListener('click', myFunction, false);
-}
 
   /**
    * *Cluster on click event
@@ -245,17 +240,6 @@ for (var i = 0; i < zoomOut.length; i++) {
   map.on("click", "single_region", function (e: any) {
     console.log("COUNTRY POINTS");
     console.log(e);
-
-    // hoveredStateId = e.features[0].properties.region_id;
-
-    // if (data.features.length > 0) {
-    //   if (data !== null) {
-    //     map.setFeatureState(
-    //       { source: "data", id: hoveredStateId },
-    //       { hover: true }
-    //     );
-    //   }
-    // }
   });
 
   /**
@@ -266,7 +250,7 @@ for (var i = 0; i < zoomOut.length; i++) {
 
     if (single_region.features.length > 0) {
       if (single_region !== null) {
-        console.log("into country cluster");
+        
 
         map.setFeatureState(
           { source: "single_region", id: hoveredStateId },
@@ -372,26 +356,54 @@ for (var i = 0; i < zoomOut.length; i++) {
   });
 
 
+
+   document.getElementById("fly").addEventListener("click", () => {
+      
+      
+      map.flyTo({
+        center: [20.5937, 78.9629],
+        zoom: 0,
+        // zoom: clicked ? 3.2 : 0,  //commented out because this code adds the zoom out effect on the clusters
+        bearing: 0,
+        scrollZoom: false,
+        doubleClickZoom: false,
+        speed: 2, // make the flying slow
+        curve: 1, // change the speed at which it zooms out
+  
+        // This can be any easing function: it takes a number between
+        // 0 and 1 and returns another number between 0 and 1.
+        easing: (t: any) => t,
+  
+        // this animation is considered essential with respect to prefers-reduced-motion
+        essential: true,
+      });
+
+
+      map.removeLayer("single_region");
+      map.removeLayer("country_cluster");
+      // map.removeLayer("cluster-count");
+      // // map.removeLayer("clusters");
+  
+      map.addLayer({ ...worldMapLayer });
+      map.addLayer({ ...clusterLayerForWorld });
+      map.addLayer({ ...clusterLabel });
+
+      backButton.style.visibility="hidden";
+
+    });
+
   // var zoomOut=document.getElementsByClassName("mapboxgl-ctrl-zoom-out");
   // console.log(zoomOut);
-  
 
-
-  
 
   /**
    * *Click on the bubble zoom effect
    */
   map.on("click", "clusters", (e: any) => {
+    backButton.style.visibility="visible";
+
+   
     clicked = !clicked;
-
-    // map.addControl(new mapboxgl.NavigationControl({
-    //   showCompass: false,
-    //   showZoom: true
-    // }));
-
-    map.addControl(new mapboxgl.ZoomControl(), 'top-right');
-  
 
    
 
@@ -421,12 +433,16 @@ for (var i = 0; i < zoomOut.length; i++) {
     map.addLayer({ ...singleRegionMapLayer });
     map.addLayer({ ...clusterLayerForCountry });
     // map.addLayer({ ...countryClusterLabel });
+
+    
   });
 
+
+ 
   /**
    * *Click on the bubble zoom effect
    */
-  map.on("click", "country_cluster", (e: any) => {
-    alert("Country Bubble Clicked");
-  });
+  // map.on("click", "country_cluster", (e: any) => {
+    
+  // });
 }
