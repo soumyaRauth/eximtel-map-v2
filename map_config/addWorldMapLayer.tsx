@@ -100,24 +100,24 @@ export function addWorldMapLayer(
     },
   };
 
-  //Single Region information data layer
-  // const singleRegionMapLayerBorder = {
-  //   id: "single_region_line",
-  //   type: "line",
-  //   source: "single_region",
-  //   layout: {},
-  //   paint: {
-  //     "line-color": [
-  //       "case",
-  //       ["boolean", ["feature-state", "hover"], false],
-  //       "red", //on hover color
-  //       "black", //default color
-  //     ],
-  //       // 'line-color': '#E2E8F0',
-  //       'line-width': 2,
+   //Single Region information data layer
+   const singleRegionMapLayerBorder = {
+    id: "single_region_line",
+    type: "line",
+    source: "single_region",
+    layout: {},
+    paint: {
+      "line-color": [
+        "case",
+        ["boolean", ["feature-state", "hover"], false],
+        "#dedede", //on hover color
+        "#dedede", //default color
+      ],
+        // 'line-color': '#E2E8F0',
+        'line-width': 1,
       
-  //   },
-  // };
+    },
+  };
 
   //cluster information data layer
   const clusterLayerForWorld = {
@@ -166,11 +166,11 @@ export function addWorldMapLayer(
       "circle-color": [
         "step",
         ["get", "volume"],
-        "#c1dcf6",
+        "#7bb4e3",
         200,
-        "#c1dcf6",
+        "#7bb4e3",
         500,
-        "#c1dcf6",
+        "#7bb4e3",
       ],
       "circle-radius": {
         property: "volume",
@@ -188,7 +188,7 @@ export function addWorldMapLayer(
           [{ zoom: 0, value: 200 }, 20],
         ],
       },
-      "circle-opacity": 0.8,
+      "circle-opacity": 0.3,
     },
   };
   //
@@ -429,7 +429,7 @@ export function addWorldMapLayer(
     // // map.removeLayer("clusters");
 
     map.addLayer({ ...singleRegionMapLayer });
-    // map.addLayer({ ...singleRegionMapLayerBorder });
+    map.addLayer({ ...singleRegionMapLayerBorder });
     map.addLayer({ ...clusterLayerForCountry });
 
     // map.addLayer({ ...countryClusterLabel });
