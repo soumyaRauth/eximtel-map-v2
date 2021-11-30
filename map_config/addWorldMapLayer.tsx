@@ -6,9 +6,16 @@ export function addWorldMapLayer(
   country_cities: any
 ) {
   var hoveredStateId: any = null;
+
+  var filtered_city_list:any=null;
+
+ 
+
+  
   var clicked: boolean = false;
   var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
-  var backButton = document.getElementById("fly");
+  var document:Document = window.document;
+  var backButton:any = document.getElementById("fly");
   backButton.style.visibility = "hidden";
 
   console.log("SINGLE REGION DATA FROM LAYER");
@@ -24,6 +31,8 @@ export function addWorldMapLayer(
   mapboxgl.accessToken =
     "pk.eyJ1Ijoic2hvdW1tb3JhdXRoIiwiYSI6ImNrdTE0OTA5YTB6ZGQybnBjN3U4dTA3eHkifQ.YBf9n4C77kkV_vePiPHamQ";
 
+
+  //Adding all the sources to map
   if (!map.getSource("data")) {
     map.addSource("data", {
       type: "geojson",
@@ -65,6 +74,7 @@ export function addWorldMapLayer(
   } else {
     map.getSource("country_cities").setData(country_cities);
   }
+
 
   //world information data layer
   const worldMapLayer = {
@@ -156,11 +166,42 @@ export function addWorldMapLayer(
     },
   };
 
+
+  function filterClusterLayer(country_cities:any,region_id:any){
+   
+
+    let countries=country_cities.features.filter((val:any)=>{
+      console.log("Feature isss");
+      console.log(region_id);
+      
+      return val.properties.region_id ==region_id;
+    });
+
+    let finalArray={type:"FeatureCollection",features:countries};
+
+  
+    filtered_city_list=finalArray;
+
+    if (!map.getSource("filtered_city_list")) {
+      map.addSource("filtered_city_list", {
+        type: "geojson",
+        data: filtered_city_list,
+        cluster: true,
+        clusterMaxZoom: 1,
+        clusterRadius: 2,
+      });
+    } else {
+      map.getSource("filtered_city_list").setData(filtered_city_list);
+    }
+    
+  }
+
+  
   //cluster information data layer
   const clusterLayerForCountry = {
     id: "country_cluster",
     type: "circle",
-    source: "country_cities",
+    source: "filtered_city_list",
     filter: ["has", "volume"],
     paint: {
       "circle-color": [
@@ -225,8 +266,7 @@ export function addWorldMapLayer(
   map.addLayer({ ...worldMapLayer });
   map.addLayer({ ...clusterLayerForWorld });
   map.addLayer({ ...clusterLabel });
-  // map.addLayer({ ...clusterCountLayer });
-  // map.addLayer({ ...unclusteredPointLayer });
+
 
   /**
    * *Cluster on click event
@@ -250,20 +290,13 @@ export function addWorldMapLayer(
     }
   });
 
-  //data onclick
-  map.on("click", "single_region", function (e: any) {
-    console.log("COUNTRY POINTS");
-    console.log(e);
-  });
+ 
 
   /**
    * *On hover on the country clusters
    */
   map.on("mousemove", "country_cluster", function (e: any) {
     hoveredStateId = e.features[0].id;
-    console.log("hoveredStateId");
-    console.log(hoveredStateId);
-    
 
     if (single_region.features.length > 0) {
       if (single_region !== null) {
@@ -367,7 +400,12 @@ export function addWorldMapLayer(
     hoveredStateId = null;
   });
 
-  document.getElementById("fly").addEventListener("click", () => {
+
+  let flyElement:any =  document.getElementById("fly");
+
+  flyElement.addEventListener("click", (e) => {
+
+
     map.flyTo({
       zoom:0,
       center: [
@@ -380,10 +418,6 @@ export function addWorldMapLayer(
     map.removeLayer("single_region");
     map.removeLayer("country_cluster");
     map.removeLayer("single_region_line");
-
-    // map.removeLayer("cluster-count");
-    // // map.removeLayer("clusters");
-
     map.addLayer({ ...worldMapLayer });
     map.addLayer({ ...clusterLayerForWorld });
     map.addLayer({ ...clusterLabel });
@@ -391,13 +425,17 @@ export function addWorldMapLayer(
     backButton.style.visibility = "hidden";
   });
 
-  // var zoomOut=document.getElementsByClassName("mapboxgl-ctrl-zoom-out");
-  // console.log(zoomOut);
+
 
   /**
    * *Click on the bubble zoom effect
    */
   map.on("click", "clusters", (e: any) => {
+    console.log("Region ID FROM CLUSTER");
+    console.log(e.features[0].properties.region_id);
+
+    filterClusterLayer(country_cities,e.features[0].properties.region_id);
+    
     console.log("e.features[0].geometry.coordinates");
     console.log(e.features[0].geometry.coordinates);
 
@@ -407,7 +445,7 @@ export function addWorldMapLayer(
 
     map.flyTo({
       center: e.features[0].geometry.coordinates,
-      zoom: 3.4,
+      zoom: 3.2,
       // zoom: clicked ? 3.2 : 0,  //commented out because this code adds the zoom out effect on the clusters
       bearing: 0,
       scrollZoom: false,
@@ -423,6 +461,13 @@ export function addWorldMapLayer(
       essential: true,
     });
 
+    // filterClusterLayer(country_cities);
+
+    console.log("filtered_city_list 2");
+    console.log(filtered_city_list);
+
+
+
     map.removeLayer("data");
     map.removeLayer("clusters");
     map.removeLayer("cluster-count");
@@ -435,10 +480,5 @@ export function addWorldMapLayer(
     // map.addLayer({ ...countryClusterLabel });
   });
 
-  /**
-   * *Click on the bubble zoom effect
-   */
-  // map.on("click", "country_cluster", (e: any) => {
 
-  // });
 }

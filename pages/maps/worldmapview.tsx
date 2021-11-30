@@ -14,11 +14,7 @@ import { initializeMap } from "../../map_config/initializeMap";
 import styles from "../../styles/Home.module.css";
 import {
   useState,
-  useRef,
-  useEffect,
-  useMemo,
-  useCallback,
-  Props,
+  useEffect
 } from "react";
 
 const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
@@ -26,13 +22,12 @@ const mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
 mapboxgl.accessToken =
   "pk.eyJ1Ijoic2hvdW1tb3JhdXRoIiwiYSI6ImNrdTE0OTA5YTB6ZGQybnBjN3U4dTA3eHkifQ.YBf9n4C77kkV_vePiPHamQ";
 
-const WorldMapView: NextPage = ({ mapObj }: any) => {
+const WorldMapView: any = ({ mapObj }) => {
   const [pageIsMounted, setPageIsMounted] = useState(false);
-  const [Map, setWorldMap] = useState();
-  const [RegionMap, setRegionMap] = useState();
-  const [regioncentre, setRegionCentre] = useState(null);
+  const [Map, setWorldMap] = useState<any>(null);
   const { data, error } = useSWR("/api/world_regions", fetcher);
-  const [pinInfo, setPinInfo] = useState(null);
+
+
 
   useEffect(() => {
     setPageIsMounted(true);

@@ -20,11 +20,28 @@
       },
       {
         "type": "Feature",
+        "id": 13,
+        "properties": {
+          "id":1,
+          "name": "COLOMBO",
+          "volume": 100,
+          "country_id":1,
+          "region_id":1,
+          "country": "Sri Lanka",
+          "region": "South Asia"
+        },
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [80.6148255, 7.677561]
+        }
+      },
+      {
+        "type": "Feature",
         "id": 10,
         "properties": {
           "id":1,
           "name": "DELHI",
-          "volume": 200,
+          "volume": 100,
           "country_id":1,
           "region_id":1,
           "country": "India",
@@ -32,7 +49,41 @@
         },
         "geometry": {
           "type": "Point", 
-          "coordinates": [77.39338400844917, 26.162841942197502]
+          "coordinates": [79.1582053, 23.0037311]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": 12,
+        "properties": {
+          "id":1,
+          "name": "KABUL",
+          "volume": 200,
+          "country_id":1,
+          "region_id":1,
+          "country": "Afghanistan",
+          "region": "South Asia"
+        },
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [65.763546, 33.916953]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": 8,
+        "properties": {
+          "id":1,
+          "name": "THIMPU",
+          "volume": 50,
+          "country_id":1,
+          "region_id":1,
+          "country": "Bhutan",
+          "region": "South Asia"
+        },
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [90.4626242, 27.3871242]
         }
       },
       {
@@ -54,17 +105,115 @@
       },
       {
         "type": "Feature",
+        "id": 11,
+        "properties": {
+          "id":1,
+          "name": "Katmandu",
+          "volume": 200,
+          "country_id":1,
+          "region_id":1,
+          "country": "Nepal",
+          "region": "South Asia"
+        },
+        "geometry": {
+          "type": "Point", 
+          "coordinates": [84.0723778, 28.1758158]
+        }
+      },
+      {
+        "type": "Feature",
         "id": 2,
         
         "properties": {
-          "name": "RIYADH",
+          "name": "RIADH",
           "volume": 200,
-          "region_id":3,
+          "region_id":2,
+          "country": "Saudi Arabia",
           "region": "Middle East"
         },
         "geometry": {
           "type": "Point",
           "coordinates": [44.6953718032302, 25.075179026382486]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": 3,
+        
+        "properties": {
+          "name": "SANA'A",
+          "volume": 200,
+          "region_id":2,
+          "country": "Yemen",
+          "region": "Middle East"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [48.0082495, 15.9458103]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": 4,
+        
+        "properties": {
+          "name": "MASCOT",
+          "volume": 200,
+          "region_id":2,
+          "country": "Oman",
+          "region": "Middle East"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [56.577405, 20.6687873]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": 5,
+        
+        "properties": {
+          "name": "Abu Dhabi",
+          "volume": 200,
+          "region_id":2,
+          "country": "UAE",
+          "region": "Middle East"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [54.0847041, 23.6952445]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": 6,
+        
+        "properties": {
+          "name": "Doha",
+          "volume": 100,
+          "region_id":2,
+          "country": "Qatar",
+          "region": "Middle East"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [51.2335162, 25.320004]
+        }
+      },
+      {
+        "type": "Feature",
+        "id": 7,
+        
+        "properties": {
+          "name": "Kuwait City",
+          "volume": 100,
+          "region_id":2,
+          "country": "Kuwait",
+          "region": "Middle East"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [47.5254949, 29.3261614]
         }
       }
    
